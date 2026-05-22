@@ -1,0 +1,13 @@
+cd "c:\Users\prana\OneDrive\Desktop\AI\ai-job-platform"
+powershell -ExecutionPolicy Bypass -File .\start-local.ps1
+
+
+
+
+cd "c:\Users\prana\OneDrive\Desktop\AI\ai-job-platform"
+docker compose up --build
+
+
+
+docker compose up -d --build
+

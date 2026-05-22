@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:80"
+    networks:
+      - ai_job_network
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-service
+      - profile-service
+      - recommendation-service
+      - notification-service
+    networks:
+      - ai_job_network
+
+  auth-service:
+    build:
+      context: ./auth-service
+    environment:
+      - PORT=3001
+      - DB_HOST=database
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=auth_db
+    networks:
+      - ai_job_network
+
+  profile-service:
+    build:
+      context: ./profile-service
+    environment:
+      - PORT=3002
+      - DB_HOST=database
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=profile_db
+    networks:
+      - ai_job_network
+
+  recommendation-service:
+    build:
+      context: ./recommendation-service
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    networks:
+      - ai_job_network
+
+  notification-service:
+    build:
+      context: ./notification-service
+    networks:
+      - ai_job_network
+
+  database:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=ai_job_platform
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ai_job_network
+
+networks:
+  ai_job_network:
+    driver: bridge
+
+volumes:
+  db_data:
