@@ -51,8 +51,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker Image
-        run: docker build -t palaksapra05/ai-job-platform .
+      - name: Build Frontend Docker Image
+        run: docker build -t palaksapra05/frontend ./frontend
+
+      - name: Build Auth Service Docker Image
+        run: docker build -t palaksapra05/auth-service ./auth-service
 
       - name: Push Docker Image
         run: docker push palaksapra05/ai-job-platform
