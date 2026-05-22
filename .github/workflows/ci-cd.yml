@@ -57,5 +57,8 @@ jobs:
       - name: Build Auth Service Docker Image
         run: docker build -t palaksapra05/auth-service ./auth-service
 
-      - name: Push Docker Image
-        run: docker push palaksapra05/ai-job-platform
+      - name: Push Frontend Docker Image
+        run: docker push palaksapra05/frontend
+
+      - name: Push Auth Service Docker Image
+        run: docker push palaksapra05/auth-service
