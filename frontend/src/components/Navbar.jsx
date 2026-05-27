@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { BrainCircuit, Menu, X, Sun, Moon, Bell, CheckCircle, Search } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import { BrainCircuit, Menu, X, Bell, CheckCircle, Search } from 'lucide-react';
 import { useNotifications } from '../context/NotificationContext';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
 
   useEffect(() => {
@@ -85,9 +83,6 @@ const Navbar = () => {
             )}
           </div>
 
-          <button onClick={toggleTheme} className="icon-action-btn theme-toggle" aria-label="Toggle theme">
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
           <RouterLink to="/login" className="btn-secondary">Login</RouterLink>
           <RouterLink to="/signup" className="btn-primary">Get Started</RouterLink>
           <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>

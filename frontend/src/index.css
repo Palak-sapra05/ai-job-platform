@@ -20,28 +20,6 @@
   --btn-secondary-color: #e6e9f2;
 }
 
-[data-theme='light'] {
-  /* Light glassmorphism palette */
-  --bg-color: #f7f6ff;
-  --bg-image: linear-gradient(135deg, #f0e6ff 0%, #e6f7ff 50%, #fff7fb 100%);
-  --card-bg: rgba(255, 255, 255, 0.85);
-  --primary: #7c4dff;
-  --secondary: #ff9ccf;
-  --text-main: #0f172a;
-  --text-dim: #6b7280;
-  --accent: #ffd6e8;
-  --glass: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.85);
-  --heading-start: #1f2a44;
-  --heading-end: #5b4bd6;
-  --card-shadow: 0 8px 24px rgba(92,76,214,0.06);
-  --btn-primary-bg: linear-gradient(135deg, #7c4dff, #ff9ccf);
-  --btn-primary-color: #ffffff;
-  --btn-primary-shadow: 0 8px 20px rgba(92,76,214,0.08);
-  --btn-secondary-bg: rgba(255,255,255,0.6);
-  --btn-secondary-color: #1f2a44;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -252,17 +230,6 @@ h3 {
   padding: 0.6rem 1rem;
   border-radius: 8px;
   border: 1px solid var(--glass-border);
-}
-
-.theme-toggle {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
 }
 
 .mobile-menu-btn {
@@ -970,10 +937,6 @@ h3 {
   border-bottom: 1px solid var(--glass-border);
 }
 
-[data-theme='light'] .chatbot-header {
-  background: rgba(241, 245, 249, 0.8);
-}
-
 .bot-icon {
   color: var(--primary);
   background: rgba(254, 129, 212, 0.1);
@@ -1110,10 +1073,6 @@ h3 {
   display: flex;
   gap: 0.5rem;
   background: rgba(15, 23, 42, 0.3);
-}
-
-[data-theme='light'] .chatbot-input {
-  background: rgba(255, 255, 255, 0.5);
 }
 
 .chatbot-input input {

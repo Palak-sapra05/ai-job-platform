@@ -2,14 +2,12 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Briefcase, TrendingUp, Star, 
-  Settings, LogOut, BrainCircuit, BarChart3, Sun, Moon, FileText
+  Settings, LogOut, BrainCircuit, BarChart3, FileText
 } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
 
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
 
   const isActive = (path) => location.pathname === path;
 
@@ -47,9 +45,6 @@ const Sidebar = () => {
         </Link>
       </nav>
       <div className="sidebar-footer">
-        <button onClick={toggleTheme} className="nav-link" style={{ background: 'transparent', border: 'none', width: '100%', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', fontSize: 'inherit', justifyContent: 'flex-start' }} aria-label="Toggle theme">
-          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-        </button>
         <Link to="/settings" className={`nav-link ${isActive('/settings') ? 'active' : ''}`}>
           <Settings size={20} /> Settings
         </Link>
