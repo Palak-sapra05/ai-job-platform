@@ -72,7 +72,7 @@ services:
     networks:
       - ai_job_network
 
-networks:
+networks: 
   ai_job_network:
     driver: bridge
 

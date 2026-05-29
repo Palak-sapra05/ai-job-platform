@@ -80,7 +80,7 @@ const LandingPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1>Your AI-Powered <br /> 
+          <h1>PersonalisedAI-Powered <br /> 
             <TextType 
               text={[
                 'Career Companion', 
