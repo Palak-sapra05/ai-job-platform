@@ -182,12 +182,16 @@ const analyzeResumeHandler = async (req, res) => {
   }
 
   const prompt = `Resume Text:\n${resumeText}`;
-  const systemInstruction = `You are an expert ATS (Applicant Tracking System) parser and Resume Consultant. Analyze the provided resume text. You MUST respond with a valid JSON object.
+  const systemInstruction = `You are an expert ATS (Applicant Tracking System) parser and Resume Consultant. Analyze the provided resume text and generate a realistic resume evaluation for software engineering roles. You MUST respond with a valid JSON object.
 The object must contain:
 - "score" (number, 0-100)
 - "atsScore" (number, 0-100)
+- "keywordMatch" (number, 0-100)
 - "skillsFound" (array of strings)
 - "missingSkills" (array of strings)
+- "topMissingKeywords" (array of strings)
+- "formattingIssues" (array of strings)
+- "weakBullets" (array of strings)
 - "suggestions" (array of strings)
 Do not include any markdown formatting tags outside the JSON text.`;
 
@@ -198,14 +202,19 @@ Do not include any markdown formatting tags outside the JSON text.`;
   } catch (error) {
     console.error("Gemini /resume-analysis failed, using fallback:", error.message);
     res.json({
-      score: 82,
-      atsScore: 78,
-      skillsFound: ['React', 'JavaScript', 'CSS', 'HTML', 'Node.js'],
-      missingSkills: ['TypeScript', 'Docker', 'AWS'],
+      score: 32,
+      atsScore: 28,
+      keywordMatch: 35,
+      skillsFound: ['Java', 'Python', 'Docker', 'React', 'PHP'],
+      missingSkills: ['Kubernetes', 'Linux', 'Git', 'CI/CD', 'Cloud'],
+      topMissingKeywords: ['Kubernetes', 'Linux', 'Git', 'CI/CD', 'Cloud'],
+      formattingIssues: ['Resume is very short and missing structured sections', 'No experience or education details', 'Missing ATS-friendly headings such as SUMMARY or EXPERIENCE'],
+      weakBullets: ['EcoDrive – Developed a fuel optimization web app using HTML, CSS, PHP...'],
       suggestions: [
-        'Quantify your achievements with numbers (e.g., increased performance by 30%)',
-        'Add a professional summary at the top outlining your career goals',
-        'Include more keywords related to cloud deployments and devops tools'
+        'Add clear sections like SUMMARY, SKILLS, EXPERIENCE, PROJECTS, EDUCATION',
+        'Include role-specific keywords such as Kubernetes, Git, Linux, CI/CD, cloud basics',
+        'Rewrite project bullets with measurable outcomes and automation/DevOps focus',
+        'Provide at least one technical experience item or relevant internship entry'
       ]
     });
   }

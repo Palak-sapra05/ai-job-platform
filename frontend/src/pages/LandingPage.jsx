@@ -123,7 +123,7 @@ const LandingPage = () => {
 
       <section className="section features">
         <div className="section-title">
-          <h2>Powerful Features</h2>
+          <h2>Powerful</h2>
           <p style={{ color: 'var(--text-dim)' }}>Everything you need to accelerate your career in one place.</p>
         </div>
         <div className="features-grid">

@@ -39,24 +39,33 @@ const ResumeAnalysis = () => {
 
       const data = await response.json();
       setResults({
-        score: data.score || 75,
-        atsScore: data.atsScore || 70,
+        score: data.score || 0,
+        atsScore: data.atsScore || 0,
+        keywordMatch: data.keywordMatch || 0,
         skillsFound: data.skillsFound || ['React', 'JavaScript'],
         missingSkills: data.missingSkills || ['TypeScript'],
+        topMissingKeywords: data.topMissingKeywords || [],
+        formattingIssues: data.formattingIssues || [],
+        weakBullets: data.weakBullets || [],
         suggestions: data.suggestions || ['Add more quantitative results']
       });
     } catch (err) {
       console.error("Resume analysis error:", err);
       // Fallback local response
       setResults({
-        score: 82,
-        atsScore: 78,
-        skillsFound: ['React', 'JavaScript', 'CSS', 'HTML', 'Node.js'],
-        missingSkills: ['TypeScript', 'Docker', 'AWS'],
+        score: 32,
+        atsScore: 28,
+        keywordMatch: 35,
+        skillsFound: ['Java', 'Python', 'Docker', 'React', 'PHP'],
+        missingSkills: ['Kubernetes', 'Linux', 'Git', 'CI/CD', 'Cloud'],
+        topMissingKeywords: ['Kubernetes', 'Linux', 'Git', 'CI/CD', 'Cloud'],
+        formattingIssues: ['Resume is very short and missing structured sections', 'No experience or education details'],
+        weakBullets: ['EcoDrive – Developed a fuel optimization web app using HTML, CSS, PHP...'],
         suggestions: [
-          'Quantify your achievements with numbers (e.g. optimized load times by 40%)',
-          'Add a professional summary at the top highlighting cloud capabilities',
-          'Include more keywords related to modern deployment patterns'
+          'Add clear sections like SUMMARY, SKILLS, EXPERIENCE, PROJECTS, EDUCATION',
+          'Include role-specific keywords such as Kubernetes, Git, Linux, CI/CD, cloud basics',
+          'Rewrite project bullets with measurable outcomes and automation/DevOps focus',
+          'Provide at least one technical experience item or relevant internship entry'
         ]
       });
     } finally {
@@ -112,19 +121,19 @@ const ResumeAnalysis = () => {
               style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1.5rem' }}
             >
               <div className="glass-card" style={{ textAlign: 'center' }}>
-                <h3>Resume Score</h3>
+                <h3>ATS Score</h3>
                 <div style={{ position: 'relative', margin: '2rem auto', width: '150px', height: '150px' }}>
                   <svg width="150" height="150" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="45" fill="none" stroke="var(--glass)" strokeWidth="5" />
                     <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" strokeWidth="5" 
-                      strokeDasharray="282.7" strokeDashoffset={282.7 * (1 - results.score / 100)} 
+                      strokeDasharray="282.7" strokeDashoffset={282.7 * (1 - results.atsScore / 100)} 
                       strokeLinecap="round" transform="rotate(-90 50 50)" />
                   </svg>
                   <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                    <h2 style={{ fontSize: '2.5rem' }}>{results.score}</h2>
+                    <h2 style={{ fontSize: '2.5rem' }}>{results.atsScore}</h2>
                   </div>
                 </div>
-                <p style={{ color: '#10b981', fontWeight: 600 }}>Looking Good!</p>
+                <p style={{ color: '#2563eb', fontWeight: 600 }}>ATS compatibility</p>
                 <button className="btn-secondary" style={{ width: '100%', marginTop: '2rem' }} onClick={() => setResults(null)}>
                   <RefreshCw size={16} /> Re-upload
                 </button>
@@ -132,8 +141,23 @@ const ResumeAnalysis = () => {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <div className="glass-card">
-                  <h3>Analysis Summary</h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginTop: '1.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div>
+                      <h3>Overall Resume Score</h3>
+                      <p style={{ fontSize: '2.2rem', margin: '0.75rem 0', fontWeight: 700 }}>{results.score}</p>
+                      <p style={{ color: 'var(--text-dim)' }}>General recruiter readiness and strength.</p>
+                    </div>
+                    <div>
+                      <h3>Keyword Match</h3>
+                      <p style={{ fontSize: '2.2rem', margin: '0.75rem 0', fontWeight: 700 }}>{results.keywordMatch}%</p>
+                      <p style={{ color: 'var(--text-dim)' }}>How well your resume matches ATS keywords.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass-card">
+                  <h3>Summary</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginTop: '1rem' }}>
                     <div>
                       <h4 style={{ fontSize: '0.875rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>Extracted Skills</h4>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
@@ -150,7 +174,30 @@ const ResumeAnalysis = () => {
                 </div>
 
                 <div className="glass-card">
-                  <h3>Suggestions for Improvement</h3>
+                  <h3>Actionable Feedback</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginTop: '1rem' }}>
+                    <div>
+                      <h4 style={{ fontSize: '0.875rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>Top Missing Keywords</h4>
+                      <ul style={{ paddingLeft: '1.2rem', margin: 0, color: 'var(--text-dim)' }}>
+                        {results.topMissingKeywords.map((keyword, index) => <li key={index}>{keyword}</li>)}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 style={{ fontSize: '0.875rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>Formatting Issues</h4>
+                      <ul style={{ paddingLeft: '1.2rem', margin: 0, color: 'var(--text-dim)' }}>
+                        {results.formattingIssues.map((issue, index) => <li key={index}>{issue}</li>)}
+                      </ul>
+                    </div>
+                  </div>
+                  <div style={{ marginTop: '1.5rem' }}>
+                    <h4 style={{ fontSize: '0.875rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>Weak Bullet Points</h4>
+                    <ul style={{ paddingLeft: '1.2rem', margin: 0, color: 'var(--text-dim)' }}>
+                      {results.weakBullets.map((bullet, index) => <li key={index}>{bullet}</li>)}
+                    </ul>
+                  </div>
+                </div>
+                <div className="glass-card">
+                  <h3>What to Change</h3>
                   <ul style={{ listStyle: 'none', marginTop: '1rem' }}>
                     {results.suggestions.map((s, i) => (
                       <li key={i} style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem', color: 'var(--text-dim)' }}>
